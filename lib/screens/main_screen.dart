@@ -2,24 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:unsplash_client/data/models.dart';
+import '../data/unsplash_requests.dart';
 
-class MainScreen extends StatelessWidget {
-  // Photo photo;
-  final String imageUrl = 'https://images.unsplash.com/photo-1680082286331-4473a0801b0e?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=Mnw0Mjg5MzR8MHwxfGFsbHwyfHx8fHx8Mnx8MTY4MDA5NTQ1OA\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=1080';
+
+class MainScreen extends StatefulWidget {
+
   MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final UnsplashRequests helper = UnsplashRequests();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Images-Feed'),
+        title: Text('Images Feed', style: TextStyle(
+          fontSize: 40,
+        ),),
         centerTitle: true,
       ),
-      body: Center(
-        child: CachedNetworkImage(imageUrl: imageUrl),
+      body: Column(
+        children: [
+          TextField(
+            controller: _controller,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              hintText: 'Search Images',
+              border: InputBorder.none,
+              hintStyle: TextStyle(
+                color: Colors.grey,
+              ),
+              suffixIcon: ElevatedButton(onPressed: (){}, child: Icon(Icons.search)),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
